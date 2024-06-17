@@ -1,0 +1,20 @@
+{
+  "name": "be-migration",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "migration:run": "npx sequelize db:migrate --env=\"development\" --migrations-path=\"./migrations\"",
+    "migration:rollback": "npx sequelize db:migrate:undo --env=\"development\" --migrations-path=\"./migrations\"",
+    "migration:rollback:all": "npx sequelize db:migrate:undo:all --env=\"development\" --migrations-path=\"./migrations\"",
+    "seed:run": "npx sequelize db:seed:all --env=\"development\" --seeders-path=\"./seeders\""
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "luxon": "^3.4.4",
+    "pg": "^8.12.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.3",
+    "sequelize-cli": "^6.6.2"
+  }
+}
