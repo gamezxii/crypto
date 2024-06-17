@@ -9,8 +9,6 @@ My Crypto Portfolio is a cryptocurrency tracking application that allows users t
 - [Usage](#usage)
 - [Design](#design)
 - [API Documentation](#api-documentation)
-- [Security](#security)
-- [License](#license)
 
 ## Installation
 
@@ -344,9 +342,9 @@ My Crypto Portfolio is a cryptocurrency tracking application that allows users t
 
 #### Transaction API
 
-#### Get Market Prices
+#### Get Transaction
 
-- **URL**: `/v1/ransaction/portfolio/:id`
+- **URL**: `/v1/transaction/portfolio/:id`
 - **Method**: `GET`
 - **Authorization**: `Bearer eyJhbGciOiJIUzI1`
 - **Description**: Retrieves the transaction data off deposit.
