@@ -1,7 +1,3 @@
-# crypto
-
-Take-Home Test for Full-Stack Developer
-
 # My Crypto Portfolio
 
 My Crypto Portfolio is a cryptocurrency tracking application that allows users to input and track their cryptocurrency holdings, comparing gains or losses based on real-time prices.
@@ -21,8 +17,8 @@ My Crypto Portfolio is a cryptocurrency tracking application that allows users t
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/gamezxii/crypto.git
-   cd crypto
+   git clone https://github.com/your-username/my-crypto-portfolio.git
+   cd my-crypto-portfolio
    ```
 
 2. Install the dependencies for both backend and frontend:
@@ -42,14 +38,47 @@ My Crypto Portfolio is a cryptocurrency tracking application that allows users t
 1. Create a `.env` file in the `backend` directory and add the following environment variables:
 
    ```plaintext
-   DATABASE_URL=your-database-url
-   COINMARKETCAP_API_KEY=your-coinmarketcap-api-key
+   DATABASE_HOST=your-database-host
+   DATABASE_PORT=your-database-port
+   DATABASE_USER=your-database-user
+   DATABASE_PASSWORD=your-database-password
+   DATABASE_DB=your-database-name
+   DATABASE_POOL_MAX=10
+   DATABASE_POOL_MIN=1
+   DATABASE_POOL_ACQUIRE=30000
+   DATABASE_POOL_IDLE=10000
+   DATABASE_LOG=true
+   JWT_SECRET=your-jwt-secret
+   X-CMC_PRO_API_KEY=your-coinmarketcap-api-key
    ```
 
-2. Start the backend server:
+2. Create a `.env` file in the `be-migration` directory and add the following environment variables:
+
+   ```plaintext
+   DATABASE_HOST=your-database-host
+   DATABASE_PORT=your-database-port
+   DATABASE_USER=your-database-user
+   DATABASE_PASSWORD=your-database-password
+   DATABASE_DB=your-database-name
+   ```
+
+3. Run Docker Compose to start the database:
 
    ```bash
-   cd backend
+   docker-compose up -d
+   ```
+
+4. Run database migrations:
+
+   ```bash
+   cd be-migration
+   yarn migration:run
+   ```
+
+5. Start the backend server:
+
+   ```bash
+   cd ../backend
    npm run start
    ```
 
@@ -58,7 +87,7 @@ My Crypto Portfolio is a cryptocurrency tracking application that allows users t
 1. Create a `.env` file in the `frontend` directory and add the following environment variables:
 
    ```plaintext
-   REACT_APP_BACKEND_URL=http://localhost:5000
+   REACT_APP_API_BASE_URL=http://localhost:5000
    ```
 
 2. Start the frontend development server:
@@ -85,12 +114,37 @@ My Crypto Portfolio is a cryptocurrency tracking application that allows users t
 ### Backend
 
 - **Framework**: NestJS
-- **Database**: SQL (using Sequelize)
+- **Database**: SQL (using Sequelize, postgres)
 - **API**: RESTful API for managing user accounts and cryptocurrency portfolios
 
 ## API Documentation
 
 ### Endpoints
+
+#### Authen
+
+#### Post Signin
+
+- **URL**: `/v1/auth/signin`
+- **Method**: `Post`
+- **Description**: Retrieves the portfolio for a specific user.
+- **Body**:
+
+```json
+{
+  "username": "Jhon@gmail.com",
+  "password": "xxx"
+}
+```
+
+- **Response**:
+  ```json
+  {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJraWQiOiI3NzA0ZTU1Ni1kY2RmLTRiMjktYjk4OC0xMjkzNTFmYmIyZWMiLCJmaXJzdF9uYW1lIjoibml0c2FydXQiLCJsYXN0X25hbWUiOiJiZSIsImlhdCI6MTcxODYzNjk4MSwiZXhwIjoxNzE4NzIzMzgxfQ.C2BFi_fV3o3Qi-G6b3PR4ug7actE6GiUNjV5pj_lHAA",
+    "first_name": "Jhon",
+    "last_name": "doe"
+  }
+  ```
 
 #### Get Portfolio
 
@@ -100,7 +154,7 @@ My Crypto Portfolio is a cryptocurrency tracking application that allows users t
 - **Response**:
   ```json
   {
-    "assets": [
+    "portfolio": [
       {
         "coin": "BTC",
         "amount": 1.5,

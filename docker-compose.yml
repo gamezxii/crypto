@@ -13,22 +13,29 @@ services:
       - "5432:5432"
     volumes:
       - ./data:/var/lib/postgresql/data
-#   frontend:
-#     build:
-#       context: ./frontend
-#     ports:
-#       - "3000:3000"
-#     depends_on:
-#       - backend
-
-#   backend:
-#     build:
-#       context: ./backend
-#     ports:
-#       - "3001:3000"
-#     environment:
-#       - DB_HOST=db
-#       - DB_PORT=3306
-#       - DB_USER=root
-#       - DB_PASSWORD=example
-#       - DB_NAME=crypto_tracker
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - backend
+  # backend:
+  #   build:
+  #     context: ./backend
+  #   ports:
+  #     - "3001:3000"
+  #   environment:
+  #     - DATABASE_HOST=127.0.0.1
+  #     - DATABASE_PORT=5432
+  #     - DATABASE_USER=admin
+  #     - DATABASE_PASSWORD=admin
+  #     - DATABASE_DB=crypto
+  #     - DATABASE_POOL_MAX=5
+  #     - DATABASE_POOL_MIN=1
+  #     - DATABASE_POOL_ACQUIRE=30000
+  #     - DATABASE_POOL_IDLE=10000
+  #     - DATABASE_LOG=true
+  #     - JWT_SECERT=JWT_SECERT
+  #   depends_on:
+  #     - postgres

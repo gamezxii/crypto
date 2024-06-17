@@ -3,7 +3,6 @@ import { observer } from "mobx-react-lite";
 import assetStore from "../stores/assetStore";
 import { addComma } from "../utils/format";
 import marketStore from "../stores/marketStore";
-// import MarketTable from "./MarketTable";
 
 const Tabs = observer(() => {
   const [activeTab, setActiveTab] = useState("market");
@@ -36,11 +35,6 @@ const Tabs = observer(() => {
         {activeTab === "market" && (
           <div>
             <MarketTable />
-            {/* <MarketTable
-              Mocktest={Mocktest}
-              toggleFavorite={assetStore.toggleFavorite}
-              marketPricesFavorite={assetStore.marketPricesFavorite}
-            /> */}
           </div>
         )}
         {activeTab === "favorite" && (
@@ -110,11 +104,8 @@ const FavoriteTable = observer(() => (
         <thead>
           <tr>
             <th className="py-2 px-4 border-b"></th>
-            <th className="py-2 px-4 border-b">สกุลเงิน</th>
-            <th className="py-2 px-4 border-b">ราคาล่าสุด (THB)</th>
-            {/* <th className="py-2 px-4 border-b">ซื้อขาย/วัน</th> */}
-            <th className="py-2 px-4 border-b">สูงสุด/วัน (THB)</th>
-            <th className="py-2 px-4 border-b">ต่ำสุด/วัน (THB)</th>
+            <th className="py-2 px-4 border-b text-nowrap">สกุลเงิน</th>
+            <th className="py-2 px-4 border-b text-nowrap">ราคาล่าสุด (THB)</th>
           </tr>
         </thead>
         <tbody>
@@ -128,7 +119,7 @@ const FavoriteTable = observer(() => (
                       {assetStore.marketPricesFavorite[x.name] ? "★" : "☆"}
                     </button>
                   </td>
-                  <td className="py-2 px-4 border-b text-right">
+                  <td className="py-2 px-4 border-b ">
                     <span className="inline-block align-middle">
                       <img
                         className="w-6 h-6"
@@ -154,21 +145,6 @@ const FavoriteTable = observer(() => (
                     })}{" "}
                     ({x.quote.THB.percent_change_24h < 0 ? "▼" : "▲"}
                     {Math.abs(x.quote.THB.percent_change_24h).toFixed(2)}%)
-                  </td>
-                  {/* <td className="py-2 px-4 border-b">
-                  {x.circulating_supply.toLocaleString("th-TH")} {x.symbol}
-                </td> */}
-                  <td className="py-2 px-4 border-b">
-                    {(x.quote.THB.price * 1.01).toLocaleString("th-TH", {
-                      style: "currency",
-                      currency: "THB",
-                    })}
-                  </td>
-                  <td className="py-2 px-4 border-b">
-                    {(x.quote.THB.price * 0.99).toLocaleString("th-TH", {
-                      style: "currency",
-                      currency: "THB",
-                    })}
                   </td>
                 </tr>
               );
