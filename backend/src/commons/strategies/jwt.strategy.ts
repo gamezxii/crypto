@@ -7,10 +7,7 @@ import { UserService } from "src/modules/user/user.service";
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
   private logger: Logger = new Logger();
-  constructor(
-    private jwtService: JwtService
-    // private userService: UserService
-  ) {
+  constructor(private jwtService: JwtService) {
     super({
       secretOrKey: process.env.JWT_SECERT,
       ignoreExpiration: false,
