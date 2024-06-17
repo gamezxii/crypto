@@ -25,9 +25,9 @@ yarn-error.log*
 
 
 #backend
-# backend/node_modules/
-# backend/dist/
-# backend/build/
+backend/node_modules/
+backend/dist/
+backend/build/
 
 
 frontend/node_modules/
