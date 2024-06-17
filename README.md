@@ -15,8 +15,8 @@ My Crypto Portfolio is a cryptocurrency tracking application that allows users t
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/my-crypto-portfolio.git
-   cd my-crypto-portfolio
+   git clone https://github.com/gamezxii/crypto.git
+   cd crypto
    ```
 
 2. Install the dependencies for both backend and frontend:
