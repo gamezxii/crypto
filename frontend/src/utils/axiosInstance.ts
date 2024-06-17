@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "http://localhost:3005",
   headers: {
     "Content-Type": "application/json",
   },
@@ -14,10 +14,11 @@ axiosInstance.interceptors.response.use(
   },
   async (error) => {
     const { response } = error;
-    console.log(error);
     if (response.status === 401 || response.status === 403) {
-      // const auth = useAuth();
-      // auth.logOut();
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("marketPricesFavorite");
+      window.location.href = "/login";
     }
     return Promise.reject(error);
   }
@@ -25,11 +26,11 @@ axiosInstance.interceptors.response.use(
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    // const auth = useAuth();
-    // const token = auth.token;
-    // if (token) {
-    //   config.headers["Authorization"] = `Bearer ${token}`;
-    // }
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {

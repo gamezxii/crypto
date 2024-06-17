@@ -4,19 +4,19 @@ import {
   ForeignKey,
   Model,
   Table,
-} from 'sequelize-typescript';
-import { UserModel } from './User.model';
-import { PortfolioModel } from './Portfolio.model';
-import { Transaction } from 'src/enums/transaction.enum';
+} from "sequelize-typescript";
+import { UserModel } from "./User.model";
+import { PortfolioModel } from "./Portfolio.model";
+import { Transaction } from "../enums/transaction.enum";
 
 @Table({
   paranoid: true,
-  tableName: 'transactions',
+  tableName: "transactions",
   underscored: true,
   timestamps: true,
-  createdAt: 'created_at',
-  updatedAt: 'updated_at',
-  deletedAt: 'deleted_at',
+  createdAt: "created_at",
+  updatedAt: "updated_at",
+  deletedAt: "deleted_at",
 })
 export class TransactionModel extends Model<TransactionModel> {
   @Column({

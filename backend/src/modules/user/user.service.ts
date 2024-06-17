@@ -1,12 +1,11 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UserModel } from 'src/models/User.model';
-import { InjectModel } from '@nestjs/sequelize';
-import { plainToClass } from 'class-transformer';
-import { validate } from 'class-validator';
-import { throwBadRequest } from 'src/commons/utils';
-import { ErrorCode } from 'src/enums/error-codes.enum';
+import { HttpStatus, Injectable } from "@nestjs/common";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UserModel } from "../../models/User.model";
+import { InjectModel } from "@nestjs/sequelize";
+import { plainToClass } from "class-transformer";
+import { validate } from "class-validator";
+import { throwBadRequest } from "../../commons/utils";
+import { ErrorCode } from "../../enums/error-codes.enum";
 
 @Injectable()
 export class UserService {
@@ -31,18 +30,14 @@ export class UserService {
     try {
       await this.userModel.create(createUserDto);
       return {
-        message: 'Register success fully.',
+        message: "Register success fully.",
       };
     } catch (error) {
       throwBadRequest(
         ErrorCode.BAD_REQUEST,
         HttpStatus.BAD_REQUEST,
-        'Error something went wrong.',
+        "Error something went wrong."
       );
     }
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
   }
 }

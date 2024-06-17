@@ -1,5 +1,6 @@
 import { useContext, createContext, useState, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthLoginMutation } from "../hooks/useAuth";
 
 interface AuthContextType {
   user: UserType | null;
@@ -9,7 +10,6 @@ interface AuthContextType {
 }
 
 interface UserType {
-  id: string;
   first_name: string;
   last_name: string;
 }
@@ -26,43 +26,51 @@ interface AuthProviderProps {
 }
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<UserType | null>({
-    id: "xxx",
-    first_name: "game",
-    last_name: "bbb",
-  });
-  const [token, setToken] = useState<string>(
-    localStorage.getItem("site") || "xxxx"
-  );
   const navigate = useNavigate();
+  const authLoginMutation = useAuthLoginMutation();
+
+  const getUserFromLocalStorage = (): UserType | null => {
+    const userJson = localStorage.getItem("user");
+    if (userJson) {
+      try {
+        return JSON.parse(userJson);
+      } catch (error) {
+        console.error("Error parsing user JSON:", error);
+        return null;
+      }
+    }
+    return null;
+  };
+
+  const [user, setUser] = useState<UserType | null>(getUserFromLocalStorage());
+  const [token, setToken] = useState<string>(
+    localStorage.getItem("token") || ""
+  );
 
   const loginAction = async (data: LoginData) => {
-    try {
-      const response = await fetch("your-api-endpoint/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      const res = await response.json();
-      if (res.data) {
-        setUser(res.data.user);
-        setToken(res.token);
-        localStorage.setItem("site", res.token);
-        navigate("/dashboard");
+    authLoginMutation.mutate(data, {
+      onSuccess: (res) => {
+        const { token, first_name, last_name } = res;
+        setUser({ first_name, last_name });
+        setToken(token);
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify({ first_name, last_name }));
+        navigate("/");
         return;
-      }
-      throw new Error(res.message);
-    } catch (err) {
-      console.error(err);
-    }
+      },
+      onError: (error) => {
+        console.error("Error ", error);
+        alert("Email or password invalid");
+      },
+    });
   };
 
   const logOut = () => {
     setUser(null);
     setToken("");
-    localStorage.removeItem("site");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("marketPricesFavorite");
     navigate("/login");
   };
 

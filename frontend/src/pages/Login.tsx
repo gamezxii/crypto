@@ -3,6 +3,7 @@ import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Input } from "../components/react-hook-form/input";
 import { PasswordInput } from "../components/react-hook-form/PasswordInput";
+import { useAuth } from "../context/AuthProvider";
 
 interface FormData {
   email: string;
@@ -11,6 +12,7 @@ interface FormData {
 
 const Login: React.FC = () => {
   const methods = useForm<FormData>({ mode: "onChange" });
+  const { loginAction } = useAuth();
 
   const {
     handleSubmit,
@@ -18,7 +20,7 @@ const Login: React.FC = () => {
   } = methods;
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data);
+    loginAction({ username: data.email, password: data.password });
   };
 
   return (

@@ -4,17 +4,17 @@ import {
   DataType,
   Model,
   Table,
-} from 'sequelize-typescript';
-import { generateHash } from 'src/commons/utils';
+} from "sequelize-typescript";
+import { generateHash } from "../commons/utils";
 
 @Table({
   paranoid: true,
-  tableName: 'users',
+  tableName: "users",
   underscored: true,
   timestamps: true,
-  createdAt: 'created_at',
-  updatedAt: 'updated_at',
-  deletedAt: 'deleted_at',
+  createdAt: "created_at",
+  updatedAt: "updated_at",
+  deletedAt: "deleted_at",
 })
 export class UserModel extends Model<UserModel> {
   @Column({
@@ -47,7 +47,7 @@ export class UserModel extends Model<UserModel> {
 
   @BeforeSave
   static async hashPassword(user: UserModel) {
-    if (user.changed('password') || user.isNewRecord) {
+    if (user.changed("password") || user.isNewRecord) {
       user.password = generateHash(user.password);
     }
   }

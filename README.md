@@ -85,7 +85,7 @@ My Crypto Portfolio is a cryptocurrency tracking application that allows users t
 ### Backend
 
 - **Framework**: NestJS
-- **Database**: SQL (using TypeORM)
+- **Database**: SQL (using Sequelize)
 - **API**: RESTful API for managing user accounts and cryptocurrency portfolios
 
 ## API Documentation
@@ -100,7 +100,7 @@ My Crypto Portfolio is a cryptocurrency tracking application that allows users t
 - **Response**:
   ```json
   {
-    "portfolio": [
+    "assets": [
       {
         "coin": "BTC",
         "amount": 1.5,

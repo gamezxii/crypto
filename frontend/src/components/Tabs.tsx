@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { observer } from "mobx-react-lite";
-import Mocktest from "./mock_test";
 import assetStore from "../stores/assetStore";
 import { addComma } from "../utils/format";
+import marketStore from "../stores/marketStore";
 // import MarketTable from "./MarketTable";
 
 const Tabs = observer(() => {
@@ -53,53 +53,55 @@ const Tabs = observer(() => {
   );
 });
 
-const MarketTable = observer(() => (
-  <div className="overflow-x-auto">
-    <div className="max-h-72 overflow-y-auto">
-      <table className=" min-w-full bg-[#202130]">
-        <thead>
-          <tr>
-            <th className="py-2 px-4 border-b"></th>
-            <th className="py-2 px-4 border-b">สกุลเงิน</th>
-            <th className="py-2 px-4 border-b">ราคาล่าสุด (THB)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Mocktest.map((x: any, index: number) => (
-            <tr key={index} className="text-center">
-              <td className="py-2 px-4 border-b text-left">
-                <button onClick={() => assetStore.toggleFavorite(x.name)}>
-                  {assetStore.marketPricesFavorite[x.name] ? "★" : "☆"}
-                </button>
-              </td>
-              <td className="py-2 px-4 border-b ">
-                <span className="inline-flex items-center space-x-2">
-                  <img
-                    className="w-6 h-6"
-                    src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${x.id}.png`}
-                    alt=""
-                  />
-                  <span>{x.symbol}</span>
-                </span>
-              </td>
-              <td
-                className={`py-2 px-4 border-b ${
-                  x.quote.THB.percent_change_24h < 0
-                    ? "text-red-500"
-                    : "text-green-500"
-                }`}
-              >
-                {addComma(x.quote.THB.price)}(
-                {x.quote.THB.percent_change_24h < 0 ? "▼" : "▲"}
-                {Math.abs(x.quote.THB.percent_change_24h).toFixed(2)}%)
-              </td>
+const MarketTable = observer(() => {
+  return (
+    <div className="overflow-x-auto">
+      <div className="max-h-72 overflow-y-auto">
+        <table className=" min-w-full bg-[#202130]">
+          <thead>
+            <tr>
+              <th className="py-2 px-4 border-b"></th>
+              <th className="py-2 px-4 border-b">สกุลเงิน</th>
+              <th className="py-2 px-4 border-b">ราคาล่าสุด (THB)</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {marketStore.marketPricesLists.map((x: any, index: number) => (
+              <tr key={index} className="text-center">
+                <td className="py-2 px-4 border-b text-left">
+                  <button onClick={() => assetStore.toggleFavorite(x.name)}>
+                    {assetStore.marketPricesFavorite[x.name] ? "★" : "☆"}
+                  </button>
+                </td>
+                <td className="py-2 px-4 border-b ">
+                  <span className="inline-flex items-center space-x-2">
+                    <img
+                      className="w-6 h-6"
+                      src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${x.id}.png`}
+                      alt=""
+                    />
+                    <span>{x.symbol}</span>
+                  </span>
+                </td>
+                <td
+                  className={`py-2 px-4 border-b ${
+                    x.quote.THB.percent_change_24h < 0
+                      ? "text-red-500"
+                      : "text-green-500"
+                  }`}
+                >
+                  {addComma(x.quote.THB.price)}(
+                  {x.quote.THB.percent_change_24h < 0 ? "▼" : "▲"}
+                  {Math.abs(x.quote.THB.percent_change_24h).toFixed(2)}%)
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-));
+  );
+});
 
 const FavoriteTable = observer(() => (
   <div className="overflow-x-auto">
@@ -116,7 +118,7 @@ const FavoriteTable = observer(() => (
           </tr>
         </thead>
         <tbody>
-          {assetStore.marketPricesLists
+          {marketStore.marketPricesLists
             .filter((x) => assetStore.marketPricesFavorite[x.name])
             .map((x) => {
               return (

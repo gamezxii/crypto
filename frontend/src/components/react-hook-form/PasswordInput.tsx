@@ -5,7 +5,7 @@ interface PasswordInputProps {
   id: string;
   name: string;
   placeholder: string;
-  rules?: any;
+  rules?: Record<string, unknown>;
 }
 
 export const PasswordInput: React.FC<PasswordInputProps> = ({

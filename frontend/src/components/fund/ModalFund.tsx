@@ -5,7 +5,7 @@ import DropdownWithSearch from "../react-hook-form/DropdownWithSearch";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { Input } from "../react-hook-form/input";
 import { usePortfolioFundMutation } from "../../hooks/usePortfolio";
-import assetStore from "../../stores/assetStore";
+import marketStore from "../../stores/marketStore";
 
 interface FormData {
   currency: { value: string; label: string; icon: string } | null;
@@ -15,7 +15,7 @@ interface FormData {
 
 interface ModalFundProps {
   open: boolean;
-  close: () => void;
+  close: (isSucess?: boolean) => void;
 }
 
 const ModalFund: FC<ModalFundProps> = ({ open, close }) => {
@@ -39,9 +39,8 @@ const ModalFund: FC<ModalFundProps> = ({ open, close }) => {
 
     fundMutation.mutate(payload, {
       onSuccess: () => {
-        console.log("Fund added successfully");
         alert("Fund added successfully");
-        close();
+        close(true);
       },
       onError: (error) => {
         console.error("Error adding fund", error);
@@ -92,7 +91,7 @@ const ModalFund: FC<ModalFundProps> = ({ open, close }) => {
                       <span>Fund</span>
                       <button
                         className="bg-rose-500 hover:bg-rose-600 px-4 rounded-full"
-                        onClick={close}
+                        onClick={() => close()}
                       >
                         X
                       </button>
@@ -104,7 +103,7 @@ const ModalFund: FC<ModalFundProps> = ({ open, close }) => {
                         <div className="py-4">
                           <DropdownWithSearch
                             name="currency"
-                            options={assetStore.marketPricesLists.map(
+                            options={marketStore.marketPricesLists.map(
                               (asset) => ({
                                 value: asset.symbol,
                                 label: asset.name,

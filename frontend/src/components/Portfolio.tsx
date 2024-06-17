@@ -100,8 +100,17 @@ const Portfolio: React.FC = observer(() => {
               <tbody>
                 {assetStore.assetsInfo.map((asset) => (
                   <tr key={asset.coin}>
-                    <td className="py-2 px-4 border-b flex items-center space-x-2">
+                    {/* <td className="py-2 px-4 border-b flex items-center space-x-2">
                       <span>{asset.coin}</span>
+                      
+                    </td> */}
+                    <td className="py-2 px-4 border-b text-right">
+                      <span className="inline-block align-middle">
+                        <img className="w-6 h-6" src={asset.picture} alt="" />
+                      </span>
+                      <span className="inline-block align-middle ml-2">
+                        {asset.coin}
+                      </span>
                     </td>
                     <td className="py-2 px-4 border-b text-nowrap">
                       {parseFloat(asset.amount).toFixed(8)} {asset.coin}

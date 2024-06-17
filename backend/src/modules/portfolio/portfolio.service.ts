@@ -1,23 +1,24 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
-import { CreatePortfolioDto } from './dto/create-portfolio.dto';
-import { UpdatePortfolioDto } from './dto/update-portfolio.dto';
-import { InjectModel } from '@nestjs/sequelize';
-import { PortfolioModel } from 'src/models/Portfolio.model';
-import { TransactionService } from '../transaction/transaction.service';
-import { UserService } from '../user/user.service';
-import { mock_cryptos, throwBadRequest } from 'src/commons/utils';
-import { ErrorCode } from 'src/enums/error-codes.enum';
-import { TransactionModel } from 'src/models/Transaction.model';
-import { Sequelize } from 'sequelize-typescript';
-import { Transaction } from 'src/enums/transaction.enum';
+import { HttpStatus, Injectable } from "@nestjs/common";
+
+import { InjectModel } from "@nestjs/sequelize";
+import { PortfolioModel } from "../../models/Portfolio.model";
+import { TransactionService } from "../transaction/transaction.service";
+import { UserService } from "../user/user.service";
+import { mock_cryptos, throwBadRequest } from "../../commons/utils";
+import { ErrorCode } from "../../enums/error-codes.enum";
+import { TransactionModel } from "../../models/Transaction.model";
+import { Sequelize } from "sequelize-typescript";
+import { Transaction } from "../../enums/transaction.enum";
 
 @Injectable()
 export class PortfolioService {
+  private readonly coinMarketendPoint =
+    "https://s2.coinmarketcap.com/static/img/coins/64x64";
   constructor(
     @InjectModel(PortfolioModel) private portModel: typeof PortfolioModel,
     private readonly userService: UserService,
     private readonly tranService: TransactionService,
-    private sequelize: Sequelize,
+    private sequelize: Sequelize
   ) {}
 
   async mock_prices() {
@@ -30,14 +31,20 @@ export class PortfolioService {
     });
 
     const currentPrices = mock_cryptos.reduce((acc, crypto) => {
-      acc[crypto.symbol] = crypto.quote.THB.price;
+      acc[crypto.symbol] = {
+        name: crypto.name,
+        symbol: crypto.symbol,
+        price: crypto.quote.THB.price,
+        picture: `${this.coinMarketendPoint}/${crypto.id}.png`,
+      };
       return acc;
     }, {});
 
     let totalAssetValue = 0;
 
     const portfolioWithProfit = portfolio.map((item) => {
-      const currentPrice = currentPrices[item.coin];
+      const coin = currentPrices[item.coin];
+      const currentPrice = coin.price;
       const profitOrLoss =
         (currentPrice - item.average_purchase_price) * item.amount;
       const percentProfitOrLoss =
@@ -54,6 +61,8 @@ export class PortfolioService {
         profitOrLoss,
         percentProfitOrLoss,
         assetValue,
+        name: coin.name,
+        picture: coin.picture,
       };
     });
 
@@ -69,7 +78,7 @@ export class PortfolioService {
       throwBadRequest(
         ErrorCode.NOT_FOUND,
         HttpStatus.NOT_FOUND,
-        'User not found',
+        "User not found"
       );
     }
 
@@ -100,7 +109,7 @@ export class PortfolioService {
               amount: buyCoinDto.amount,
               average_purchase_price: buyCoinDto.purchasePrice,
             },
-            { transaction },
+            { transaction }
           );
         }
 
@@ -115,17 +124,15 @@ export class PortfolioService {
 
         await this.tranService.createTransaction(
           transactionBody.dataValues,
-          transaction,
+          transaction
         );
       });
     } catch (err) {
       throwBadRequest(
         ErrorCode.BAD_REQUEST,
         HttpStatus.BAD_REQUEST,
-        'Error something went wrong.',
+        "Error something went wrong."
       );
     }
   }
 }
-
-//https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png

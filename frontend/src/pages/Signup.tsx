@@ -2,6 +2,8 @@ import React from "react";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { Input } from "../components/react-hook-form/input";
 import { PasswordInput } from "../components/react-hook-form/PasswordInput";
+import { useAuthCreateUserMutation } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
   first_name: string;
@@ -13,15 +15,33 @@ interface FormData {
 
 const Signup: React.FC = () => {
   const methods = useForm<FormData>({ mode: "onChange" });
-
+  const authCreateMutation = useAuthCreateUserMutation();
   const {
     handleSubmit,
     formState: { isValid },
     watch,
   } = methods;
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data);
+    authCreateMutation.mutate(
+      {
+        username: data.email,
+        password: data.password,
+        first_name: data.first_name,
+        last_name: data.last_name,
+      },
+      {
+        onSuccess: () => {
+          alert("Register successfully");
+          navigate("/login");
+        },
+        onError: (error) => {
+          console.error("Error adding fund", error);
+          alert("Error Something went wrong.");
+        },
+      }
+    );
   };
 
   const password = watch("password");

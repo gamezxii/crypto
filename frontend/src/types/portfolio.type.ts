@@ -11,11 +11,13 @@ export interface Asset {
   average_purchase_price: string;
   created_at: string;
   updated_at: string;
-  deleted_at: any;
+  deleted_at: string;
   currentPrice: number;
   profitOrLoss: number;
   percentProfitOrLoss: number;
   assetValue: number;
+  picture: string;
+  name: string;
 }
 
 export interface PortfolioFundPayload {
