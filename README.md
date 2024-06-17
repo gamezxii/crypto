@@ -197,7 +197,7 @@ My Crypto Portfolio is a cryptocurrency tracking application that allows users t
 
 #### Portfolio API
 
-#### Post Signup
+#### Get asset-info
 
 - **URL**: `v1/portfolio/asset-info`
 - **Method**: `Get`
@@ -258,9 +258,43 @@ My Crypto Portfolio is a cryptocurrency tracking application that allows users t
   }
   ```
 
+#### Post Fund
+
+- **URL**: `/v1/auth/portfolio`
+- **Method**: `Post`
+- **Authorization**: `Bearer eyJhbGciOiJIUzI1`
+- **Description**: Deposit Crypto for a user.
+- **Body**:
+
+```json
+{
+  "amount": 2,
+  "coin": "BTC",
+  "purchasePrice": 12
+}
+```
+
+- **Response 204**:
+
+  ```json
+  No Conent
+  ```
+
+  - **Response 400**:
+
+  ```json
+  {
+    "status_code": 400,
+    "error_code": "BAD_REQUEST",
+    "data": {
+      "message": "Error something went wrong."
+    }
+  }
+  ```
+
 #### Maret API
 
-#### Get Portfolio
+#### Get Market Prices
 
 - **URL**: `/v1/market`
 - **Method**: `GET`
@@ -308,26 +342,34 @@ My Crypto Portfolio is a cryptocurrency tracking application that allows users t
   ]
   ```
 
-#### Get Portfolio
+#### Transaction API
 
-- **URL**: `/portfolio/:userId`
+#### Get Market Prices
+
+- **URL**: `/v1/ransaction/portfolio/:id`
 - **Method**: `GET`
-- **Description**: Retrieves the portfolio for a specific user.
+- **Authorization**: `Bearer eyJhbGciOiJIUzI1`
+- **Description**: Retrieves the transaction data off deposit.
 - **Response**:
   ```json
-  {
-    "portfolio": [
-      {
-        "coin": "BTC",
-        "amount": 1.5,
-        "averagePurchasePrice": 50000,
-        "currentPrice": 1500000,
-        "profitOrLoss": 1450000,
-        "percentProfitOrLoss": 2900,
-        "assetValue": 2250000,
-        "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"
-      }
-    ],
-    "totalAssetValue": 2250000
-  }
+  [
+    {
+      "id": "b7bc95a1-6e15-420c-a708-b032f47e301c",
+      "user_id": "7704e556-dcdf-4b29-b988-129351fbb2ec",
+      "coin": "ETH",
+      "transaction_type": "BUY",
+      "amount": "1.0000000000",
+      "price": "232.0000000000",
+      "created_at": "2024-06-17T13:12:26.295Z"
+    },
+    {
+      "id": "f0e88d9b-d16c-4412-ac9a-7997dabbc3a6",
+      "user_id": "7704e556-dcdf-4b29-b988-129351fbb2ec",
+      "coin": "ETH",
+      "transaction_type": "BUY",
+      "amount": "2.0000000000",
+      "price": "20000.0000000000",
+      "created_at": "2024-06-17T13:01:07.889Z"
+    }
+  ]
   ```
