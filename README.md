@@ -41,10 +41,10 @@ My Crypto Portfolio is a cryptocurrency tracking application that allows users t
    DATABASE_USER=your-database-user
    DATABASE_PASSWORD=your-database-password
    DATABASE_DB=your-database-name
-   DATABASE_POOL_MAX=10
-   DATABASE_POOL_MIN=1
-   DATABASE_POOL_ACQUIRE=30000
-   DATABASE_POOL_IDLE=10000
+   DATABASE_POOL_MAX=
+   DATABASE_POOL_MIN=
+   DATABASE_POOL_ACQUIRE=
+   DATABASE_POOL_IDLE=
    DATABASE_LOG=true
    JWT_SECRET=your-jwt-secret
    X-CMC_PRO_API_KEY=your-coinmarketcap-api-key
