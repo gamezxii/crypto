@@ -4,11 +4,12 @@ import { InjectModel } from "@nestjs/sequelize";
 import { PortfolioModel } from "../../models/Portfolio.model";
 import { TransactionService } from "../transaction/transaction.service";
 import { UserService } from "../user/user.service";
-import { mock_cryptos, throwBadRequest } from "../../commons/utils";
+import { throwBadRequest } from "../../commons/utils";
 import { ErrorCode } from "../../enums/error-codes.enum";
 import { TransactionModel } from "../../models/Transaction.model";
 import { Sequelize } from "sequelize-typescript";
 import { Transaction } from "../../enums/transaction.enum";
+import { MarketService } from "../market/market.service";
 
 @Injectable()
 export class PortfolioService {
@@ -18,19 +19,18 @@ export class PortfolioService {
     @InjectModel(PortfolioModel) private portModel: typeof PortfolioModel,
     private readonly userService: UserService,
     private readonly tranService: TransactionService,
-    private sequelize: Sequelize
+    private sequelize: Sequelize,
+    private marketSerivce: MarketService
   ) {}
-
-  async mock_prices() {
-    return mock_cryptos;
-  }
 
   async getPortfolioWithProfit(userId: string): Promise<any> {
     const portfolio = await this.portModel.findAll({
       where: { user_id: userId },
     });
 
-    const currentPrices = mock_cryptos.reduce((acc, crypto) => {
+    const getMarketPrices = await this.marketSerivce.findAll();
+
+    const currentPrices = getMarketPrices.reduce((acc, crypto) => {
       acc[crypto.symbol] = {
         name: crypto.name,
         symbol: crypto.symbol,

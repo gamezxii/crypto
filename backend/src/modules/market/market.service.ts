@@ -1,12 +1,13 @@
 import { Injectable } from "@nestjs/common";
 import axios from "axios";
+import { IMarketCoinMarketCapResponse } from "src/interfaces/Market.interface";
 
 @Injectable()
 export class MarketService {
   private readonly apiUrl = process.env.END_POINT_MARKET;
   private readonly apiKey = process.env.CMC_PRO_API_KEY;
 
-  async findAll() {
+  async findAll(): Promise<IMarketCoinMarketCapResponse[]> {
     try {
       const response = await axios.get(this.apiUrl, {
         headers: {

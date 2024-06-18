@@ -21,10 +21,6 @@ export class PortfolioController {
   create(@Body() createPortfolioDto, @CustomerId() customer_id: string) {
     return this.portfolioService.buyCoin(customer_id, createPortfolioDto);
   }
-  @Get("/lists")
-  findAll() {
-    return this.portfolioService.mock_prices();
-  }
 
   @Get("asset-info")
   findOne(@CustomerId() customer_id: string) {
