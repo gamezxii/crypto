@@ -11,7 +11,7 @@ const Navbar = () => {
   return (
     <nav className="bg-gray-900 text-white p-4 flex justify-between items-center">
       <div className="flex items-center space-x-4">
-        <div className="text-xl font-bold">Kryptodian</div>
+        <div className="text-xl font-bold">CRYPTO</div>
         <div className="space-x-4">
           <Link to="/" className="hover:underline">
             Dashboard
